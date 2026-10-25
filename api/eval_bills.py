@@ -16,7 +16,10 @@ import json
 import sys
 from pathlib import Path
 
+from anna import env  # noqa: F401  (loads api/.env)
+from anna import ocr
 from anna.extract import ExtractionUnavailable, extract_bill_image
+from anna.main import photo_reader
 
 BILLS = Path(__file__).parent / "data" / "bills"
 MEDIA = {".jpg": "image/jpeg", ".jpeg": "image/jpeg", ".png": "image/png", ".webp": "image/webp"}
@@ -49,11 +52,17 @@ def main() -> int:
     for p in photos:
         truth = json.loads(p.with_suffix(".json").read_text(encoding="utf-8"))["lines"]
         try:
-            bill = extract_bill_image(p.read_bytes(), MEDIA[p.suffix.lower()])
+            reader = photo_reader()
+            if reader == "claude":
+                got = [l.model_dump() for l in extract_bill_image(p.read_bytes(), MEDIA[p.suffix.lower()]).lines]
+            elif reader == "ocr_space":
+                got = ocr.bill_from_text(ocr.ocr_text(p.read_bytes(), MEDIA[p.suffix.lower()]))[1]
+            else:
+                raise ExtractionUnavailable("no photo reader configured (set OCR_SPACE_API_KEY or ANTHROPIC_API_KEY)")
         except ExtractionUnavailable as e:
             print(f"{p.name}: extraction unavailable ({e})")
             return 2
-        ok, n, issues = score(truth, [l.model_dump() for l in bill.lines])
+        ok, n, issues = score(truth, got)
         good = not issues
         correct += good
         print(f"{'PASS' if good else 'FAIL'} {p.name}: {ok}/{n} lines" + (f" — {'; '.join(issues)}" if issues else ""))

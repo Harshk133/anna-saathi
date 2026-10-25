@@ -1,0 +1,33 @@
+# Render blueprint for the AnnaSaathi API (https://render.com/docs/blueprint-spec).
+# In Render: New → Blueprint → pick this repository.
+services:
+  - type: web
+    name: annasaathi-api
+    runtime: python
+    rootDir: api
+    plan: free # free instances sleep after ~15 min idle and lose the SQLite file on restart (see README)
+    region: singapore # closest Render region to India
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn anna.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /api/health
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.7
+      # "today", shelf-life ages and cooked-food finish-by times use the server clock: keep it on India time
+      - key: TZ
+        value: Asia/Kolkata
+      # secret: Render asks for the value when the blueprint is created (never commit it)
+      - key: OCR_SPACE_API_KEY
+        sync: false
+      # optional, for a fixed demo: uncomment to pin 31 °C weather
+      # - key: ANNA_DEMO
+      #   value: "1"
+    # To keep data across restarts and deploys, use a paid plan with a disk and point the database at it:
+    # plan: starter
+    # disk:
+    #   name: anna-data
+    #   mountPath: /var/data
+    #   sizeGB: 1
+    # and add to envVars:
+    #   - key: ANNA_DB
+    #     value: /var/data/anna.db

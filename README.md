@@ -50,13 +50,25 @@ npx expo start
 
 | Variable | Where | Effect |
 |---|---|---|
-| `ANTHROPIC_API_KEY` | API | Turns on live photo reading with Claude vision. Without it, photos fall back to the sample bill and the app says so before and after. |
+| `OCR_SPACE_API_KEY` | API | Turns on photo reading with OCR.space (free key at ocr.space/ocrapi). Put it in `api/.env` (see `api/.env.example`); it never leaves the server. |
+| `ANTHROPIC_API_KEY` | API | Reads photos with Claude vision instead (used first when set). With neither key, photos fall back to the clearly labelled sample bill. |
 | `ANNA_DEMO=1` | API | Skip the live weather call; use a fixed 31 °C Pune afternoon |
 | `ANNA_TODAY=YYYY-MM-DD` | API | Pin "today" |
 | `ANNA_DB` | API | SQLite file (default `api/anna.db`) |
 | `EXPO_PUBLIC_API_URL` | mobile | API address, if not auto-detected |
 
-No key is needed for the demo. Keys stay on the server; the app never sees them.
+No key is needed for the demo. Keys stay on the server; the app never sees them. The API reads `api/.env` on start (real environment variables win).
+
+## Deploy the API to Render
+
+`render.yaml` describes the service (Python 3.12, Singapore region, India time, health check at `/api/health`).
+
+1. Push this repo to GitHub (`api/.env` is git-ignored, so the key isn't uploaded).
+2. On render.com: **New → Blueprint**, choose the repo, and paste your `OCR_SPACE_API_KEY` when asked.
+3. When it's live, open `https://<your-service>.onrender.com/api/health`; it should return `{"ok": true, ...}`.
+4. Point the app at it: in `mobile/.env` set `EXPO_PUBLIC_API_URL=https://<your-service>.onrender.com` and restart with `npx expo start -c`, or enter the address in **Family → Settings → Server address**. The phone then no longer needs to be on the same Wi-Fi as a computer.
+
+On the **free plan** the server sleeps after ~15 minutes idle (the first request then takes up to a minute; the app waits for it), and the SQLite file is wiped on every restart or deploy: the Patil demo family is re-created automatically, but your own family and scans are lost. For lasting data use a paid instance with a disk (commented in `render.yaml`) and `ANNA_DB=/var/data/anna.db`, or move the database to Postgres.
 
 ## The 2-minute demo
 
@@ -72,7 +84,8 @@ Reset first: **Family → Settings → Reset demo family** (or `POST /api/demo/r
 ## How it works
 
 ```
-photo / pasted text / voice ──► extraction (Claude vision, schema-checked │ deterministic text parser)
+photo ──► OCR.space text (or Claude vision) ─┐
+pasted text / voice ──────────────────────────┴► deterministic bill-line parser
                                      ──► catalogue matcher (EN/HI/MR aliases) ──► review screen (low-confidence lines flagged)
                                                                                               │ confirm (duplicate-bill safe)
 family profile ──► daily use per item ─┐                                                      ▼
@@ -99,6 +112,7 @@ The LLM only reads messy input. Every buying and cooking decision comes from exp
 | Consumption, shelf life, projection, urgency | `api/anna/engine.py` |
 | Cook-first, buy-right, shopping-list merge, recipe consumption | `api/anna/planner.py` |
 | Bill extraction (Claude vision + text parser), voice parsing | `api/anna/extract.py` |
+| Photo reading with OCR.space: upload limit, digit fixes, split-row prices | `api/anna/ocr.py` |
 | SQLite storage, migrations, trips, re-anchoring stock | `api/anna/db.py` |
 | API | `api/anna/main.py` |
 | 50 households × 90 days simulator (seed 42) | `api/anna/simulator.py` |
@@ -113,11 +127,12 @@ The LLM only reads messy input. Every buying and cooking decision comes from exp
 
 ```bash
 cd api
-python -m pytest -q           # 66 tests: formulas, PRD acceptance criteria, the product loop through the API
+python -m pytest -q           # 82 tests: formulas, PRD acceptance criteria, the product loop through the API
 python -m anna.simulator      # regenerate impact numbers (deterministic)
 python eval_bills.py          # photo-scan accuracy on data/bills/ (needs the key and real bills; see below)
 
 cd mobile
+npm test                      # reminder planner tests
 npx tsc --noEmit              # typecheck
 npx expo-doctor               # SDK/dependency compatibility
 ```
@@ -134,13 +149,15 @@ npx expo-doctor               # SDK/dependency compatibility
 - Cook Today: 2–3 dishes from what's at home, ranked by at-risk food used, with method steps; Mark as cooked deducts confirmed amounts; cooked-food finish-by times (move to fridge, finished, thrown)
 - Weekly 10-second check (learns use rates and shelf-life corrections)
 - Alerts screen (deduplicated, dismissible)
+- **Phone reminders** (local notifications, opt-in under Family → Reminders): a morning "use first today" digest, at most one per day and predicted up to 7 days ahead from each item's freshness window and the family's pace; cooked food 30 minutes before its finish-by time; the shopping-day morning; the Sunday weekly check. Each reminder has a stable key and is never sent twice. They follow the app language, open the relevant screen when tapped, and the settings show a preview of what's coming. The planner has 11 unit tests (`npm test` in `mobile/`)
 - Impact simulator, labelled as simulated, kept separate from the waste the family actually recorded
 - English, Hindi and Marathi item names and catalogue search
 
 **Partial — needs work or a real-world test:**
-- **Photo reading** is built (camera with framing guide and retake, gallery, resizing before upload, Claude vision with a strict schema and per-line confidence), but it **has not been tested with a real API key or real bills**. The PRD's 8-of-10 target is unmeasured: `api/data/bills/` still needs 10 real bills with ground truth. The 34/34 result above is for the text parser on clean text, not photos.
+- **Photo reading works with OCR.space** (camera with framing guide and retake, gallery, resizing, then OCR.space text into the bill parser, with uncertain lines highlighted). Tested live: a rendered photo of the sample bill read **18/18 items with correct quantities and prices in about 3 s**, and through the running API the same photo went into the kitchen, with a re-scan recognised as a duplicate. That photo is synthetic (clean printed text), so real-world accuracy is still unmeasured: the PRD's 8-of-10 target needs real kirana photos in `api/data/bills/` (each with a `.json` of the right items), then `python eval_bills.py`. OCR.space is English-only as configured, so bills printed in Devanagari won't read well. The free tier allows 1 MB per photo (the server shrinks larger ones) and has a daily request limit. A failed read is reported with Retake / paste-text options; the sample bill is never silently substituted. Claude vision remains untested without a key.
 - **Camera on a real phone**: the code uses the SDK 58 `expo-camera` / `expo-image-picker` APIs and passes typecheck and expo-doctor, but no Android device or emulator was available while building, so capture hasn't been run on hardware. The browser build was used to verify the screens.
 - **Hindi/Marathi**: about half of the 435 interface strings are translated (all tabs, Home, Shop, Kitchen, Cook, the weekly check, voice and scan basics); the rest fall back to English. Reason lines and profile option labels come from the server in English.
+- **Phone reminders haven't fired on a real phone yet.** The schedule logic is unit-tested and the settings and preview were checked in the browser, but the browser can't deliver notifications and no device was available. On your phone: Family → Reminders → turn on → *Send a test reminder*. The app loads only the local-notification parts of expo-notifications, at runtime and guarded: importing the package root crashed Expo Go on Android (its push-topic native module is missing there). If the Expo Go on the phone lacks any other part, the app still runs and Settings says reminders need an installed build (`npx expo run:android`, or `npx eas-cli@latest build --profile development --platform android`). Reminders are planned from the data last loaded, so after a day or two without opening the app the predictions can drift; opening the app reschedules them.
 - **Voice** uses the phone keyboard's microphone (Gboard handles Marathi/Hindi) plus server-side word matching, not in-app speech recognition, which would need a development build.
 - **Weather** is read for the household's stored coordinates (Pune by default); onboarding doesn't ask for or geocode a city.
 - Cook suggestions have no photos (none in the recipe data, so none were invented).
@@ -148,7 +165,6 @@ npx expo-doctor               # SDK/dependency compatibility
 
 **Not built:**
 - On-device OCR (needs a development build with ML Kit)
-- OS push/local notifications (reminders are in-app on the Alerts screen)
 - Kirana QR bill (P2; it exists only as a mock-up in the old web build)
 - Learning from the gap between two bills (the app learns from weekly checks only)
 - Offline mode, login and accounts (out of scope in the PRD)
@@ -158,5 +174,6 @@ npx expo-doctor               # SDK/dependency compatibility
 - Impact is **simulated**, not measured in real homes. The raw model overestimates waste (127 kg/person/yr), so both arms are scaled by one factor to match UNEP's 55 kg baseline; the % reduction is unaffected. The simulator uses the original 55-item weekly basket (`sim` column), so growing the catalogue doesn't change its numbers.
 - Shelf-life values are ranges from FSSAI/USDA FoodKeeper guidance plus a homemaker's rules. Every estimate tells the family to check look and smell, and printed dates take precedence.
 - No medical or calorie advice. Health needs are stored only as family-entered preferences.
-#   a n n a - s a a t h i  
+#   a n n a - s a a t h i 
+ 
  

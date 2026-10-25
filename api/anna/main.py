@@ -13,7 +13,8 @@ from fastapi import FastAPI, File, Form, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
-from . import db, engine, extract, household, planner, simulator, weather
+from . import env  # noqa: F401  (loads api/.env before anything reads the environment)
+from . import db, engine, extract, household, ocr, planner, simulator, weather
 from .data import catalogue, cooked_tiers, fmt_qty, fmt_rate, recipes, sample_bills, tiers
 
 app = FastAPI(title="AnnaSaathi API", version="0.1.0")
@@ -44,6 +45,12 @@ def item_card(item_id: str, c: engine.Ctx) -> dict:
     return {"item_id": it.id, "emoji": it.emoji, "name_en": it.name_en, "name_hi": it.name_hi, "name_mr": it.name_mr,
             "unit": it.unit, "tier": it.tier, "tier_label": tiers()[it.tier].label, "category": it.category,
             "days_left": [round(lo, 1), round(hi, 1)], "notes": notes}
+
+
+@app.get("/api/health")
+def health():
+    """For the host's health check: cheap, touches no external service."""
+    return {"ok": True, "today": today().isoformat(), "photo_reader": photo_reader()}
 
 
 # ---------------------------------------------------------------- household
@@ -208,12 +215,22 @@ def _scan_result(bill_id: str, shop: str, source: str, mode: str, lines: list[di
             "total": round(sum(l.get("price") or 0 for l in enriched))}
 
 
+def photo_reader() -> str | None:
+    """Which service reads bill photos: Claude vision if configured, else OCR.space, else none."""
+    if os.environ.get("ANTHROPIC_API_KEY") or os.environ.get("ANTHROPIC_AUTH_TOKEN"):
+        return "claude"
+    if ocr.configured():
+        return "ocr_space"
+    return None
+
+
 @app.get("/api/bills/status")
 def scan_status():
-    """Whether photo reading is configured, so the app can say so honestly before a scan."""
-    live = bool(os.environ.get("ANTHROPIC_API_KEY") or os.environ.get("ANTHROPIC_AUTH_TOKEN"))
-    return {"live_vision": live, "model": extract.MODEL if live else None,
-            "fallback": "preloaded sample bill" if not live else None}
+    """Whether photo reading is configured, and by whom, so the app can say so honestly before a scan."""
+    reader = photo_reader()
+    return {"live_vision": reader is not None, "reader": reader,
+            "model": extract.MODEL if reader == "claude" else None,
+            "fallback": None if reader else "preloaded sample bill"}
 
 
 @app.post("/api/bills/scan")
@@ -230,11 +247,23 @@ async def scan_bill(file: UploadFile | None = File(None), sample_id: str | None 
             raise HTTPException(413, "photo is too large (over 12 MB)")
         # the same photo always gets the same id, so importing it twice replaces instead of doubling
         bill_id = f"photo_{hashlib.sha1(data).hexdigest()[:12]}"
+        media = file.content_type or "image/jpeg"
+        reader = photo_reader()
         try:
-            bill = extract.extract_bill_image(data, file.content_type or "image/jpeg")
-            return _scan_result(bill_id, bill.shop, "photo", "claude", [l.model_dump() for l in bill.lines], c)
+            if reader == "claude":
+                bill = extract.extract_bill_image(data, media)
+                return _scan_result(bill_id, bill.shop, "photo", "claude", [l.model_dump() for l in bill.lines], c)
+            if reader == "ocr_space":
+                shop, lines = ocr.bill_from_text(ocr.ocr_text(data, media))
+                if not any(l["item_id"] != "unknown" for l in lines):
+                    raise HTTPException(422, {"code": "no_items", "message": "No grocery lines found in this photo. "
+                                              "Try again closer, flat and in good light, or paste the order text."})
+                return _scan_result(bill_id, shop, "photo", "ocr", lines, c)
         except extract.ExtractionUnavailable as e:
-            note = f"Live reading unavailable ({e}). Showing the preloaded sample bill instead."
+            # a real photo was taken: say it couldn't be read rather than showing someone else's bill
+            raise HTTPException(502, {"code": "read_failed", "message": f"Couldn't read the photo: {e}. "
+                                      "Try again, or paste the order text."}) from e
+        note = "Photo reading isn't set up on this server. Showing the preloaded sample bill instead."
     b = sample_bills().get(sample_id or "ganesh_kirana_oct24")
     if not b:
         raise HTTPException(404, "unknown sample bill")

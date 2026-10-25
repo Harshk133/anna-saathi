@@ -282,3 +282,8 @@ def test_empty_kitchen_suggests_nothing(api):
     h = {k: v for k, v in demo_household().items() if k != "seed_bills"}
     api.post("/api/household/setup", json={"household": h, "fresh": True})
     assert api.get("/api/plan/today").json()["dishes"] == []
+
+
+def test_health_check(api):
+    r = api.get("/api/health").json()
+    assert r["ok"] and r["today"] == "2026-10-24"
