@@ -1,0 +1,27 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+    #m-ground { position: absolute; inset: 0; background: #f5b83d; }
+    #m-lines { position: absolute; left: 192px; top: 300px; width: 1300px; }
+    #m-lines .display { font-size: 104px; color: #1a1411; }
+    #m-l2 { margin-top: 18px; }
+    #m-flood { background: #1a1411; clip-path: circle(0px at 1600px 700px); }
+  </style>
+  <div data-hf-id="hf-zamr" id="root" data-composition-id="s11-claim" data-width="1920" data-height="1080">
+    <div data-hf-id="hf-e3xi" id="m-ground"></div>
+    <div data-hf-id="hf-nthc" id="m-lines">
+      <div data-hf-id="hf-fjzr" id="m-l1" class="display"><span data-hf-id="hf-ero1" class="word">Waste</span> <span data-hf-id="hf-q96p" class="word">is</span> <span data-hf-id="hf-c16j" class="word">decided</span> <span data-hf-id="hf-4s6k" class="word">at</span> <span data-hf-id="hf-o034" class="word">the</span> <span data-hf-id="hf-yc8z" class="word">shop,</span></div>
+      <div data-hf-id="hf-ay30" id="m-l2" class="display"><span data-hf-id="hf-np92" class="word">not</span> <span data-hf-id="hf-33go" class="word">the</span> <span data-hf-id="hf-owqy" class="word">bin</span></div>
+    </div>
+    <div data-hf-id="hf-0pcg" id="m-flood" class="flood"></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    // words go from paper-light to ink, no movement
+    tl.fromTo("#m-l1 .word", { color: "#d99a24" }, { color: "#1a1411", duration: 0.12, stagger: 0.09, ease: "none" }, 0.2);
+    tl.fromTo("#m-l2 .word", { color: "#d99a24" }, { color: "#1a1411", duration: 0.12, stagger: 0.1, ease: "none" }, 1.05);
+    // iris back to the kitchen, opening from the robot
+    tl.fromTo("#m-flood", { clipPath: "circle(0px at 1600px 700px)" }, { clipPath: "circle(2300px at 1600px 700px)", duration: 0.45, ease: "power2.inOut" }, 3.55);
+    window.__timelines["s11-claim"] = tl;
+  </script>
+</template>

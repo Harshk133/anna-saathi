@@ -1,0 +1,41 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+    #w-card { position: absolute; left: 850px; top: 150px; width: 520px; height: 750px; overflow: hidden; border-radius: 34px; background: #1a1411; box-shadow: 0 40px 90px rgba(0, 0, 0, 0.55); }
+    #w-card img { position: absolute; left: -46px; top: -205px; width: 608px; height: 1316px; }
+    #w-rules { position: absolute; left: 1420px; top: 300px; width: 308px; }
+    .w-rule { margin-bottom: 56px; }
+    .w-rule .display { font-size: 44px; }
+    .w-rule .text { margin-top: 10px; }
+    #w-r1 .text { color: #5fd3c6; }
+    #w-r2 .text { color: #f5b83d; }
+    #w-flood { background: #2aa9a0; clip-path: circle(0px at 390px 690px); }
+  </style>
+  <div data-hf-id="hf-qymm" id="root" data-composition-id="s9-check" data-width="1920" data-height="1080">
+    <div data-hf-id="hf-ygft" class="ground"><div data-hf-id="hf-l8jp" class="key"></div><div data-hf-id="hf-el44" class="counter"></div></div>
+    <div data-hf-id="hf-a10p" id="w-stage">
+      <div data-hf-id="hf-ivu2" id="w-bubble" class="bubble">
+        <div data-hf-id="hf-m6y2" class="display"><span data-hf-id="hf-q6ls" class="word">10</span> <span data-hf-id="hf-q6im" class="word">seconds</span> <span data-hf-id="hf-d7bk" class="word">a</span> <span data-hf-id="hf-zjj5" class="word">week</span></div>
+        <div data-hf-id="hf-fqhy" class="text">No daily logging. One swipe per item and it learns your family.</div>
+      </div>
+      <div data-hf-id="hf-jzwr" id="w-card"><img data-hf-id="hf-q072" src="assets/ui/check.png" alt="Weekly check: still have, finished or thrown" /></div>
+      <div data-hf-id="hf-elwi" id="w-rules">
+        <div data-hf-id="hf-h53z" id="w-r1" class="w-rule"><div data-hf-id="hf-7hyj" class="display">Finished early</div><div data-hf-id="hf-3giy" class="text">next list buys a bit more</div></div>
+        <div data-hf-id="hf-8h84" id="w-r2" class="w-rule"><div data-hf-id="hf-drxi" class="display">Thrown away</div><div data-hf-id="hf-oxgd" class="text">next list buys 15% less</div></div>
+      </div>
+    </div>
+    <div data-hf-id="hf-lfj6" id="w-flood" class="flood"></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#w-card", { x: 300, filter: "blur(14px)", opacity: 0 }, { x: 0, filter: "blur(0px)", opacity: 1, duration: 0.5, ease: "expo.out" }, 0);
+    tl.fromTo("#w-bubble", { scale: 0.8, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.35, ease: "back.out(1.4)" }, 0.15);
+    tl.fromTo("#w-bubble .word", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.13, stagger: 0.07, ease: "power2.out" }, 0.26);
+    tl.fromTo("#w-bubble .text", { opacity: 0 }, { opacity: 1, duration: 0.25 }, 0.8);
+    tl.fromTo("#w-r1", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.2, ease: "power2.out" }, 1.6);
+    tl.fromTo("#w-r2", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.2, ease: "power2.out" }, 2.4);
+    // teal floods out from the robot into the results
+    tl.fromTo("#w-flood", { clipPath: "circle(0px at 390px 690px)" }, { clipPath: "circle(2400px at 390px 690px)", duration: 0.5, ease: "power2.inOut" }, 4.5);
+    window.__timelines["s9-check"] = tl;
+  </script>
+</template>

@@ -1,0 +1,469 @@
+{
+  "ok": true,
+  "strict": false,
+  "browserSkipped": false,
+  "lint": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": [],
+    "filesScanned": 14
+  },
+  "runtime": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": []
+  },
+  "layout": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 6,
+    "findings": [
+      {
+        "code": "container_overflow",
+        "severity": "info",
+        "time": 4.056,
+        "selector": "#s1-hook > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1)",
+        "message": "Element extends outside a clipping layout container.",
+        "rect": {
+          "left": -380,
+          "top": -520,
+          "right": 1120,
+          "bottom": 980,
+          "width": 1500,
+          "height": 1500
+        },
+        "containerSelector": "#s1-hook > div:nth-of-type(1) > div:nth-of-type(1)",
+        "fixHint": "Resize/reposition the child or container, or mark intentional overflow with data-layout-allow-overflow.",
+        "containerRect": {
+          "left": 0,
+          "top": 0,
+          "right": 1920,
+          "bottom": 1080,
+          "width": 1920,
+          "height": 1080
+        },
+        "overflow": {
+          "left": 380,
+          "top": 520
+        },
+        "dataAttributes": {},
+        "sourceFile": "compositions/s1-hook.html",
+        "bbox": {
+          "x": -380,
+          "y": -520,
+          "width": 1500,
+          "height": 1500
+        },
+        "firstSeen": 4.056,
+        "lastSeen": 4.056,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          4.056
+        ]
+      },
+      {
+        "code": "container_overflow",
+        "severity": "info",
+        "time": 20.278,
+        "selector": "#s4-tell > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1)",
+        "message": "Element extends outside a clipping layout container.",
+        "rect": {
+          "left": -380,
+          "top": -520,
+          "right": 1120,
+          "bottom": 980,
+          "width": 1500,
+          "height": 1500
+        },
+        "containerSelector": "#s4-tell > div:nth-of-type(1) > div:nth-of-type(1)",
+        "fixHint": "Resize/reposition the child or container, or mark intentional overflow with data-layout-allow-overflow.",
+        "containerRect": {
+          "left": 0,
+          "top": 0,
+          "right": 1920,
+          "bottom": 1080,
+          "width": 1920,
+          "height": 1080
+        },
+        "overflow": {
+          "left": 380,
+          "top": 520
+        },
+        "dataAttributes": {},
+        "sourceFile": "compositions/s4-tell.html",
+        "bbox": {
+          "x": -380,
+          "y": -520,
+          "width": 1500,
+          "height": 1500
+        },
+        "firstSeen": 20.278,
+        "lastSeen": 20.278,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          20.278
+        ]
+      },
+      {
+        "code": "container_overflow",
+        "severity": "info",
+        "time": 28.389,
+        "selector": "#s6-know > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1)",
+        "message": "Element extends outside a clipping layout container.",
+        "rect": {
+          "left": -380,
+          "top": -520,
+          "right": 1120,
+          "bottom": 980,
+          "width": 1500,
+          "height": 1500
+        },
+        "containerSelector": "#s6-know > div:nth-of-type(1) > div:nth-of-type(1)",
+        "fixHint": "Resize/reposition the child or container, or mark intentional overflow with data-layout-allow-overflow.",
+        "containerRect": {
+          "left": 0,
+          "top": 0,
+          "right": 1920,
+          "bottom": 1080,
+          "width": 1920,
+          "height": 1080
+        },
+        "overflow": {
+          "left": 380,
+          "top": 520
+        },
+        "dataAttributes": {},
+        "sourceFile": "compositions/s6-know.html",
+        "bbox": {
+          "x": -380,
+          "y": -520,
+          "width": 1500,
+          "height": 1500
+        },
+        "firstSeen": 28.389,
+        "lastSeen": 28.389,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          28.389
+        ]
+      },
+      {
+        "code": "container_overflow",
+        "severity": "info",
+        "time": 36.5,
+        "selector": "#s7-cook > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1)",
+        "message": "Element extends outside a clipping layout container.",
+        "rect": {
+          "left": -380,
+          "top": -520,
+          "right": 1120,
+          "bottom": 980,
+          "width": 1500,
+          "height": 1500
+        },
+        "containerSelector": "#s7-cook > div:nth-of-type(1) > div:nth-of-type(1)",
+        "fixHint": "Resize/reposition the child or container, or mark intentional overflow with data-layout-allow-overflow.",
+        "containerRect": {
+          "left": 0,
+          "top": 0,
+          "right": 1920,
+          "bottom": 1080,
+          "width": 1920,
+          "height": 1080
+        },
+        "overflow": {
+          "left": 380,
+          "top": 520
+        },
+        "dataAttributes": {},
+        "sourceFile": "compositions/s7-cook.html",
+        "bbox": {
+          "x": -380,
+          "y": -520,
+          "width": 1500,
+          "height": 1500
+        },
+        "firstSeen": 36.5,
+        "lastSeen": 36.5,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          36.5
+        ]
+      },
+      {
+        "code": "container_overflow",
+        "severity": "info",
+        "time": 44.611,
+        "selector": "#s8-buy > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1)",
+        "message": "Element extends outside a clipping layout container.",
+        "rect": {
+          "left": -380,
+          "top": -520,
+          "right": 1120,
+          "bottom": 980,
+          "width": 1500,
+          "height": 1500
+        },
+        "containerSelector": "#s8-buy > div:nth-of-type(1) > div:nth-of-type(1)",
+        "fixHint": "Resize/reposition the child or container, or mark intentional overflow with data-layout-allow-overflow.",
+        "containerRect": {
+          "left": 0,
+          "top": 0,
+          "right": 1920,
+          "bottom": 1080,
+          "width": 1920,
+          "height": 1080
+        },
+        "overflow": {
+          "left": 380,
+          "top": 520
+        },
+        "dataAttributes": {},
+        "sourceFile": "compositions/s8-buy.html",
+        "bbox": {
+          "x": -380,
+          "y": -520,
+          "width": 1500,
+          "height": 1500
+        },
+        "firstSeen": 44.611,
+        "lastSeen": 44.611,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          44.611
+        ]
+      },
+      {
+        "code": "container_overflow",
+        "severity": "info",
+        "time": 68.944,
+        "selector": "#s12-end > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1)",
+        "message": "Element extends outside a clipping layout container.",
+        "rect": {
+          "left": -380,
+          "top": -520,
+          "right": 1120,
+          "bottom": 980,
+          "width": 1500,
+          "height": 1500
+        },
+        "containerSelector": "#s12-end > div:nth-of-type(1) > div:nth-of-type(1)",
+        "fixHint": "Resize/reposition the child or container, or mark intentional overflow with data-layout-allow-overflow.",
+        "containerRect": {
+          "left": 0,
+          "top": 0,
+          "right": 1920,
+          "bottom": 1080,
+          "width": 1920,
+          "height": 1080
+        },
+        "overflow": {
+          "left": 380,
+          "top": 520
+        },
+        "dataAttributes": {},
+        "sourceFile": "compositions/s12-end.html",
+        "bbox": {
+          "x": -380,
+          "y": -520,
+          "width": 1500,
+          "height": 1500
+        },
+        "firstSeen": 68.944,
+        "lastSeen": 68.944,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          68.944
+        ]
+      }
+    ],
+    "duration": 73,
+    "samples": [
+      4.056,
+      12.167,
+      20.278,
+      28.389,
+      36.5,
+      44.611,
+      52.722,
+      60.833,
+      68.944
+    ],
+    "transitionSamples": [],
+    "transitionSamplesDropped": 0,
+    "tolerance": 2,
+    "totalIssueCount": 6,
+    "truncated": false
+  },
+  "motion": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": [],
+    "enabled": false,
+    "samples": 0
+  },
+  "contrast": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": [],
+    "enabled": true,
+    "samples": [
+      4.056,
+      20.278,
+      36.5,
+      52.722,
+      68.944
+    ],
+    "checked": 18,
+    "passed": 18
+  },
+  "craft": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 6,
+    "infoCount": 0,
+    "findings": [
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"before a family of 5 can eat it\" (8 words) is on screen 1.94 s (±0.01 s), under its 2.17 s floor: hold it about 0.5 s + 0.3 s a word (2.90 s here) before it leaves or changes; see references/motion.md.",
+        "text": "before a family of 5 can eat it",
+        "selector": "#h-sub2",
+        "dataAttributes": {},
+        "sourceFile": "compositions/s1-hook.html",
+        "bbox": {
+          "x": 1010,
+          "y": 321,
+          "width": 432.97,
+          "height": 39
+        },
+        "time": 3.203,
+        "words": 8,
+        "seconds": 1.938,
+        "floorSeconds": 2.175
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"thrown away at home in India · UNEP Food Waste Index 2024\" (11 words) is on screen 1.96 s (±0.01 s), under its 2.85 s floor: hold it about 0.5 s + 0.3 s a word (3.80 s here) before it leaves or changes; see references/motion.md.",
+        "text": "thrown away at home in India · UNEP Food Waste Index 2024",
+        "selector": "#o-src",
+        "dataAttributes": {},
+        "sourceFile": "compositions/s2-old.html",
+        "bbox": {
+          "x": 192,
+          "y": 578.23,
+          "width": 897.1700000000001,
+          "height": 39
+        },
+        "time": 6.273,
+        "words": 11,
+        "seconds": 1.961,
+        "floorSeconds": 2.85
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"…and next week you buy the same again.\" (8 words) is on screen 1.90 s (±0.01 s), under its 2.17 s floor: hold it about 0.5 s + 0.3 s a word (2.90 s here) before it leaves or changes; see references/motion.md.",
+        "text": "…and next week you buy the same again.",
+        "selector": "#o-b-sub",
+        "dataAttributes": {},
+        "sourceFile": "compositions/s2-old.html",
+        "bbox": {
+          "x": 192,
+          "y": 486.09,
+          "width": 605.52,
+          "height": 38.99999999999994
+        },
+        "time": 9.102,
+        "words": 8,
+        "seconds": 1.898,
+        "floorSeconds": 2.175
+      },
+      {
+        "code": "dead_stretch",
+        "severity": "warning",
+        "message": "Nothing on screen changes for 3.13 s (17.50–20.63 s): start the next move within 3 s, or put data-hold on the element whose stillness is deliberate; see references/motion.md.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 17.5,
+        "seconds": 3.125,
+        "floorSeconds": 3,
+        "until": 20.625
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"…then a 500 g top-up on Wednesday, not 2 kg on Sunday.\" (13 words) is on screen 2.90 s (±0.01 s), under its 3.30 s floor: hold it about 0.5 s + 0.3 s a word (4.40 s here) before it leaves or changes; see references/motion.md.",
+        "text": "…then a 500 g top-up on Wednesday, not 2 kg on Sunday.",
+        "selector": "#b-top",
+        "dataAttributes": {},
+        "sourceFile": "compositions/s8-buy.html",
+        "bbox": {
+          "x": 860,
+          "y": 861,
+          "width": 898.78,
+          "height": 41
+        },
+        "time": 44.469,
+        "words": 13,
+        "seconds": 2.898,
+        "floorSeconds": 3.3
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"Simulated, not yet measured in real homes · baseline cali...\" (20 words) is on screen 2.41 s (±0.01 s), under its 4.88 s floor: hold it about 0.5 s + 0.3 s a word (6.50 s here) before it leaves or changes; see references/motion.md.",
+        "text": "Simulated, not yet measured in real homes · baseline calibrated to UNEP's 55 kg · fixed seed, same result every run",
+        "selector": "#i-note",
+        "dataAttributes": {},
+        "sourceFile": "compositions/s10-impact.html",
+        "bbox": {
+          "x": 192,
+          "y": 901,
+          "width": 1353.14,
+          "height": 70.38999999999999
+        },
+        "time": 60,
+        "words": 20,
+        "seconds": 2.406,
+        "floorSeconds": 4.875
+      }
+    ],
+    "enabled": true,
+    "step": 0.125,
+    "samples": 584
+  },
+  "hdr": {
+    "autoPromotion": null,
+    "inspection": "available"
+  },
+  "snapshots": {
+    "enabled": false,
+    "files": [],
+    "times": [],
+    "findingFiles": []
+  }
+}

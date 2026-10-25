@@ -1,0 +1,71 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+    #i-ground { position: absolute; inset: 0; background: #2aa9a0; }
+    #i-ground .band { position: absolute; left: 0; right: 0; top: 820px; bottom: 0; background: rgba(10, 40, 38, 0.18); }
+    #i-kicker { position: absolute; left: 192px; top: 140px; font-size: 52px; color: #10302d; }
+    #i-nums { position: absolute; left: 180px; top: 230px; width: 760px; height: 330px; }
+    .i-num { position: absolute; left: 0; top: 0; font-size: 320px; line-height: 1; color: #10302d; }
+    #i-label { position: absolute; left: 192px; top: 570px; font-size: 56px; color: #10302d; }
+    #i-follow { position: absolute; left: 192px; top: 655px; width: 760px; font-size: 32px; color: #12403c; }
+    #i-follow .pct { position: relative; display: inline-block; width: 92px; height: 40px; vertical-align: bottom; }
+    #i-follow .pct span { position: absolute; left: 0; top: 0; font-weight: 700; color: #10302d; }
+    #i-cards { position: absolute; left: 960px; top: 150px; width: 752px; height: 376px; }
+    #i-cards img { position: absolute; left: 0; top: 0; width: 752px; height: 376px; }
+    #i-tiles { position: absolute; left: 960px; top: 570px; width: 752px; height: 202px; }
+    #i-runs { position: absolute; left: 192px; top: 760px; font-size: 48px; color: #10302d; }
+    #i-note { position: absolute; left: 192px; top: 900px; width: 1400px; font-size: 28px; color: #12403c; }
+    #i-flood { background: #f5b83d; clip-path: circle(0px at 1590px 770px); }
+  </style>
+  <div data-hf-id="hf-g5w2" id="root" data-composition-id="s10-impact" data-width="1920" data-height="1080">
+    <div data-hf-id="hf-73aq" id="i-ground"><div data-hf-id="hf-a71x" class="band"></div></div>
+    <div data-hf-id="hf-2s15" id="i-kicker" class="display">50 homes × 90 days, simulated</div>
+    <div data-hf-id="hf-ql34" id="i-nums">
+      <div data-hf-id="hf-v2ok" id="i-n50" class="i-num display">−31%</div>
+      <div data-hf-id="hf-9bs6" id="i-n70" class="i-num display">−44%</div>
+      <div data-hf-id="hf-t24c" id="i-n100" class="i-num display">−64%</div>
+    </div>
+    <div data-hf-id="hf-bjab" id="i-label" class="display">less food thrown away</div>
+    <div data-hf-id="hf-o8q3" id="i-follow" class="text">
+      when families follow the advice
+      <span data-hf-id="hf-wlfi" class="pct"><span data-hf-id="hf-nsch" id="i-p50">50%</span><span data-hf-id="hf-3n0p" id="i-p70">70%</span><span data-hf-id="hf-ulqr" id="i-p100">100%</span></span>
+      of the time
+    </div>
+    <div data-hf-id="hf-0am4" id="i-cards">
+      <img data-hf-id="hf-xp3a" id="i-c50" class="ui" src="assets/ui/impact-hero-50.png" alt="Simulator at 50%: −31%" />
+      <img data-hf-id="hf-k3jm" id="i-c70" class="ui" src="assets/ui/impact-hero.png" alt="Simulator at 70%: −44%" />
+      <img data-hf-id="hf-cz7c" id="i-c100" class="ui" src="assets/ui/impact-hero-100.png" alt="Simulator at 100%: −64%" />
+    </div>
+    <img data-hf-id="hf-j6ok" id="i-tiles" class="ui" src="assets/ui/impact-tiles.png" alt="kg and rupees wasted per home per month, and run-outs" />
+    <div data-hf-id="hf-c12r" id="i-runs" class="display">and fewer run-outs: 62 → 43 a month</div>
+    <div data-hf-id="hf-gde0" id="i-note" class="text">Simulated, not yet measured in homes · UNEP-calibrated</div>
+    <div data-hf-id="hf-co38" id="i-flood" class="flood"></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    const blurIn = { opacity: 1, filter: "blur(0px)", duration: 0.2, ease: "power2.out" };
+    const blurOut = { opacity: 0, filter: "blur(10px)", duration: 0.15, ease: "power3.in" };
+    tl.fromTo("#i-kicker", { opacity: 0, filter: "blur(6px)" }, blurIn, 0.25);
+    tl.fromTo("#i-label", { opacity: 0, filter: "blur(6px)" }, blurIn, 0.9);
+    tl.fromTo("#i-follow", { opacity: 0, filter: "blur(6px)" }, blurIn, 1.1);
+    // 50% → 70% → 100%: the number and the real simulator card swap together
+    const steps = [["50", 0.6], ["70", 2.9], ["100", 5.2]];
+    steps.forEach(([p, t], i) => {
+      tl.fromTo(`#i-n${p}`, { opacity: 0, filter: "blur(12px)", scale: i === 2 ? 1.12 : 1 }, { opacity: 1, filter: "blur(0px)", scale: 1, duration: i === 2 ? 0.35 : 0.2, ease: i === 2 ? "expo.out" : "power2.out" }, t);
+      tl.fromTo(`#i-p${p}`, { opacity: 0 }, { opacity: 1, duration: 0.15 }, t);
+      tl.fromTo(`#i-c${p}`, { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.25, ease: "power2.out" }, t);
+      if (i < 2) {
+        const nx = steps[i + 1][1] - 0.15;
+        tl.to(`#i-n${p}`, blurOut, nx);
+        tl.to(`#i-p${p}`, { opacity: 0, duration: 0.1 }, nx);
+        tl.to(`#i-c${p}`, { opacity: 0, duration: 0.2 }, nx + 0.1);
+      }
+    });
+    tl.fromTo("#i-tiles", { opacity: 0, y: 30, filter: "blur(6px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.45, ease: "expo.out" }, 6.4);
+    tl.fromTo("#i-runs", { opacity: 0, filter: "blur(6px)" }, blurIn, 6.7);
+    tl.fromTo("#i-note", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 6.9);
+    // haldi floods out from the robot for the claim
+    tl.fromTo("#i-flood", { clipPath: "circle(0px at 1590px 770px)" }, { clipPath: "circle(2300px at 1590px 770px)", duration: 0.5, ease: "power2.inOut" }, 9.45);
+    window.__timelines["s10-impact"] = tl;
+  </script>
+</template>

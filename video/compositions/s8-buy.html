@@ -1,0 +1,55 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+    #b-card { position: absolute; left: 860px; top: 150px; width: 827px; height: 333px; }
+    .b-row { position: absolute; left: 860px; display: flex; align-items: flex-start; gap: 30px; }
+    #b-row1 { top: 560px; }
+    #b-row2 { top: 700px; }
+    .b-row .display { font-size: 60px; }
+    .b-row .text { font-size: 28px; margin-top: 8px; }
+    .b-row .op { color: #b9aa98; }
+    #b-kg .display { color: #5fd3c6; font-size: 76px; margin-top: -10px; }
+    #b-top { position: absolute; left: 860px; top: 860px; font-size: 34px; color: #f5b83d; }
+  </style>
+  <div data-hf-id="hf-su1l" id="root" data-composition-id="s8-buy" data-width="1920" data-height="1080">
+    <div data-hf-id="hf-ygft" class="ground"><div data-hf-id="hf-l8jp" class="key"></div><div data-hf-id="hf-el44" class="counter"></div></div>
+    <div data-hf-id="hf-26zc" id="b-stage">
+      <div data-hf-id="hf-6e35" id="b-bubble" class="bubble">
+        <div data-hf-id="hf-m6y2" class="display"><span data-hf-id="hf-db6f" class="word">Buy</span> <span data-hf-id="hf-0thm" class="word">1&nbsp;kg,</span> <span data-hf-id="hf-np92" class="word">not</span> <span data-hf-id="hf-7swp" class="word">2</span></div>
+        <div data-hf-id="hf-nr5z" class="text">Worked out before you shop, with the reason on every item.</div>
+      </div>
+      <img data-hf-id="hf-1eat" id="b-card" class="ui" src="assets/ui/shop-tomato.png" alt="Tomato: 1 kg, not 2 kg; top up 500 g on Wed" />
+      <div data-hf-id="hf-zzst" id="b-row1" class="b-row">
+        <div data-hf-id="hf-9z0j" id="b-a" class="part"><div data-hf-id="hf-hiz8" class="display">200 g a day</div><div data-hf-id="hf-ab15" class="text">a family of 5 eats</div></div>
+        <div data-hf-id="hf-o3s7" id="b-x" class="op display">×</div>
+        <div data-hf-id="hf-z3iw" id="b-b" class="part"><div data-hf-id="hf-32v1" class="display">4 days</div><div data-hf-id="hf-aodb" class="text">still fresh at 31°C</div></div>
+      </div>
+      <div data-hf-id="hf-3xwu" id="b-row2" class="b-row">
+        <div data-hf-id="hf-zp3i" id="b-e" class="op display">=</div>
+        <div data-hf-id="hf-22sh" id="b-c" class="part"><div data-hf-id="hf-tf1r" class="display">800 g</div><div data-hf-id="hf-w5va" class="text">needed till they turn</div></div>
+        <div data-hf-id="hf-jsst" id="b-arrow" class="op display">→</div>
+        <div data-hf-id="hf-ikfg" id="b-kg" class="part"><div data-hf-id="hf-46pp" class="display">1 kg</div><div data-hf-id="hf-ni32" class="text">in 500 g packs</div></div>
+      </div>
+      <div data-hf-id="hf-ta0y" id="b-top" class="text">Then 500 g more on Wednesday</div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    // hard cut in on the rebound of the dip: the card arrives slightly large and settles
+    tl.fromTo("#b-card", { scale: 1.08, opacity: 1 }, { scale: 1, duration: 0.5, ease: "expo.out" }, 0);
+    tl.fromTo("#b-bubble", { scale: 0.8, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.35, ease: "back.out(1.4)" }, 0.15);
+    tl.fromTo("#b-bubble .word", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.13, stagger: 0.09, ease: "power2.out" }, 0.26);
+    tl.fromTo("#b-bubble .text", { opacity: 0 }, { opacity: 1, duration: 0.25 }, 0.95);
+    // the buy-right rule, term by term
+    tl.fromTo("#b-a", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.18, ease: "power2.out" }, 1.7);
+    tl.fromTo("#b-x", { opacity: 0 }, { opacity: 1, duration: 0.15 }, 2.25);
+    tl.fromTo("#b-b", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.18, ease: "power2.out" }, 2.4);
+    tl.fromTo("#b-e", { opacity: 0 }, { opacity: 1, duration: 0.15 }, 3.1);
+    tl.fromTo("#b-c", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.18, ease: "power2.out" }, 3.25);
+    tl.fromTo("#b-arrow", { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 0.2, ease: "power2.out" }, 3.95);
+    tl.fromTo("#b-kg", { opacity: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 0.45, ease: "back.out(1.7)" }, 4.4);
+    tl.fromTo("#b-top", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.22, ease: "power2.out" }, 5.4);
+    tl.to("#b-stage", { x: -320, filter: "blur(14px)", opacity: 0, duration: 0.3, ease: "power3.in" }, 8.1);
+    window.__timelines["s8-buy"] = tl;
+  </script>
+</template>

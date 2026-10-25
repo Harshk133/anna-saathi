@@ -1,0 +1,12 @@
+__pycache__/
+*.pyc
+.pytest_cache/
+api/anna.db
+api/data/sim_cache.json
+.env
+node_modules/
+web/.next/
+web/next-env.d.ts
+tools/
+mobile/.expo/
+mobile/dist/

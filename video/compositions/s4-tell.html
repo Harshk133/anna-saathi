@@ -1,0 +1,35 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+    #t-aaji { position: absolute; left: 860px; top: 250px; width: 827px; height: 245px; }
+    #t-eats { position: absolute; left: 860px; top: 540px; width: 827px; height: 300px; }
+    #t-under { position: absolute; left: 900px; top: 704px; width: 340px; height: 5px; background: #f5b83d; border-radius: 3px; transform-origin: 0% 50%; }
+    #t-note { position: absolute; left: 860px; top: 880px; font-size: 32px; color: #f5b83d; }
+  </style>
+  <div data-hf-id="hf-edl0" id="root" data-composition-id="s4-tell" data-width="1920" data-height="1080">
+    <div data-hf-id="hf-ygft" class="ground"><div data-hf-id="hf-l8jp" class="key"></div><div data-hf-id="hf-el44" class="counter"></div></div>
+    <div data-hf-id="hf-qlmm" id="t-stage">
+      <div data-hf-id="hf-s14z" id="t-bubble" class="bubble">
+        <div data-hf-id="hf-m6y2" class="display"><span data-hf-id="hf-ja8u" class="word">Tell</span> <span data-hf-id="hf-puvo" class="word">it</span> <span data-hf-id="hf-pm43" class="word">who</span> <span data-hf-id="hf-ggge" class="word">eats</span></div>
+        <div data-hf-id="hf-9syv" class="text">Set up once, in 2 minutes: ages, diet, who likes what.</div>
+      </div>
+      <img data-hf-id="hf-oypz" id="t-aaji" class="ui" src="assets/ui/profile-aaji.png" alt="Aaji, 71, prefers roasted food, ajwain for digestion" />
+      <img data-hf-id="hf-y3qq" id="t-eats" class="ui" src="assets/ui/profile-eats.png" alt="Eats like 4.1 adults at home" />
+      <div data-hf-id="hf-3dxy" id="t-under"></div>
+      <div data-hf-id="hf-pwjk" id="t-note" class="text">Every quantity starts from this number</div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#t-aaji", { x: 300, filter: "blur(14px)", opacity: 0 }, { x: 0, filter: "blur(0px)", opacity: 1, duration: 0.5, ease: "expo.out" }, 0);
+    tl.fromTo("#t-bubble", { scale: 0.8, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.35, ease: "back.out(1.4)" }, 0.15);
+    tl.fromTo("#t-bubble .word", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.13, stagger: 0.07, ease: "power2.out" }, 0.26);
+    tl.fromTo("#t-bubble .text", { opacity: 0 }, { opacity: 1, duration: 0.25 }, 0.8);
+    // the household becomes one number the planner uses
+    tl.fromTo("#t-eats", { y: -120, scale: 0.92, opacity: 0, filter: "blur(8px)" }, { y: 0, scale: 1, opacity: 1, filter: "blur(0px)", duration: 0.6, ease: "expo.out" }, 1.7);
+    tl.fromTo("#t-under", { scaleX: 0 }, { scaleX: 1, duration: 0.4, ease: "power2.inOut" }, 2.8);
+    tl.fromTo("#t-note", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.2, ease: "power2.out" }, 3.1);
+    tl.to("#t-stage", { x: -320, filter: "blur(14px)", opacity: 0, duration: 0.3, ease: "power3.in" }, 5.5);
+    window.__timelines["s4-tell"] = tl;
+  </script>
+</template>

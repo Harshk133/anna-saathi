@@ -1,0 +1,47 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+    #c-paper { position: absolute; left: 850px; top: 150px; width: 530px; height: 702px; transform-origin: 50% 50%; }
+    #c-receipt { width: 530px; height: 702px; display: block; filter: drop-shadow(0 30px 50px rgba(0, 0, 0, 0.5)); }
+    #c-laser {
+      position: absolute; left: 0; top: 0; width: 530px; height: 90px;
+      background: linear-gradient(180deg, rgba(42, 169, 160, 0), rgba(42, 169, 160, 0.28) 70%, rgba(95, 211, 198, 0.95) 97%, rgba(42, 169, 160, 0));
+    }
+    #c-list { position: absolute; left: 960px; top: 100px; width: 760px; height: 700px; overflow: hidden; border-radius: 34px; background: #1a1411; box-shadow: 0 40px 90px rgba(0, 0, 0, 0.55); }
+    #c-list img { position: absolute; left: 0; top: -240px; width: 760px; height: 1645px; }
+    #c-voice { position: absolute; left: 960px; top: 840px; padding: 18px 26px; background: #fff4e2; border-radius: 22px; }
+    #c-voice .text { color: #5b4a3d; font-size: 30px; }
+    #c-voice .deva { color: #1a1411; font-size: 36px; }
+  </style>
+  <div data-hf-id="hf-4enn" id="root" data-composition-id="s5-scan" data-width="1920" data-height="1080">
+    <div data-hf-id="hf-ygft" class="ground"><div data-hf-id="hf-l8jp" class="key"></div><div data-hf-id="hf-el44" class="counter"></div></div>
+    <div data-hf-id="hf-exbx" id="c-stage">
+      <div data-hf-id="hf-upwu" id="c-bubble" class="bubble">
+        <div data-hf-id="hf-m6y2" class="display"><span data-hf-id="hf-tky9" class="word">Snap</span> <span data-hf-id="hf-o034" class="word">the</span> <span data-hf-id="hf-g6j9" class="word">kirana</span> <span data-hf-id="hf-0mag" class="word">bill</span></div>
+        <div data-hf-id="hf-97ve" class="text">18 lines read and matched. No typing.</div>
+      </div>
+      <div data-hf-id="hf-h8a5" id="c-paper">
+        <img data-hf-id="hf-e7zq" id="c-receipt" src="assets/ui/receipt.png" alt="The same kirana bill" />
+        <div data-hf-id="hf-lyuy" id="c-laser"></div>
+      </div>
+      <div data-hf-id="hf-ca49" id="c-list"><img data-hf-id="hf-pfbh" src="assets/ui/scan-review.png" alt="18 of 18 lines read, each with a shelf-life tier" /></div>
+      <div data-hf-id="hf-6set" id="c-voice"><span data-hf-id="hf-m3xj" class="text">Or just say it:&nbsp;&nbsp;</span><span data-hf-id="hf-2hh8" class="deva">दोन किलो कांदा</span></div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#c-paper", { x: 300, rotation: -3, filter: "blur(14px)", opacity: 0 }, { x: 0, rotation: -3, filter: "blur(0px)", opacity: 1, duration: 0.5, ease: "expo.out" }, 0);
+    tl.fromTo("#c-bubble", { scale: 0.8, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.35, ease: "back.out(1.4)" }, 0.15);
+    tl.fromTo("#c-bubble .word", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.13, stagger: 0.07, ease: "power2.out" }, 0.26);
+    tl.fromTo("#c-bubble .text", { opacity: 0 }, { opacity: 1, duration: 0.25 }, 0.8);
+    // the scan reads the bill top to bottom
+    tl.fromTo("#c-laser", { y: -90, opacity: 1 }, { y: 702, duration: 1.4, ease: "power1.inOut" }, 0.55);
+    tl.to("#c-laser", { opacity: 0, duration: 0.15 }, 1.95);
+    // the bill is carried into the app as its item list
+    tl.to("#c-paper", { x: -60, scale: 0.8, rotation: -8, filter: "blur(3px)", opacity: 0.35, duration: 0.55, ease: "power2.inOut" }, 2.05);
+    tl.fromTo("#c-list", { x: -220, scale: 0.7, opacity: 0, filter: "blur(8px)" }, { x: 0, scale: 1, opacity: 1, filter: "blur(0px)", duration: 0.6, ease: "expo.out" }, 2.15);
+    tl.fromTo("#c-voice", { scale: 0.7, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.4, ease: "back.out(1.4)" }, 4.45);
+    tl.to("#c-stage", { x: -320, filter: "blur(14px)", opacity: 0, duration: 0.3, ease: "power3.in" }, 6.3);
+    window.__timelines["s5-scan"] = tl;
+  </script>
+</template>

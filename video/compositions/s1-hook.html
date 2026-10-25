@@ -1,0 +1,47 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+    #h-paper { position: absolute; left: 200px; top: 88px; width: 673px; height: 891px; transform-origin: 50% 0%; }
+    #h-receipt { width: 673px; height: 891px; display: block; filter: drop-shadow(0 40px 60px rgba(0, 0, 0, 0.55)); }
+    #h-mark { position: absolute; left: 26px; top: 158px; width: 482px; height: 40px; background: #f5b83d; mix-blend-mode: multiply; opacity: 0.9; transform-origin: 0% 50%; border-radius: 4px; }
+    #h-title { position: absolute; left: 1010px; top: 180px; width: 760px; }
+    #h-title .display { font-size: 104px; }
+    #h-line2 { position: absolute; left: 0; top: 0; }
+    #h-rot { color: #ef5a50; }
+    #h-sub, #h-sub2 { position: absolute; left: 0; top: 140px; width: 720px; }
+  </style>
+  <div data-hf-id="hf-hv3x" id="root" data-composition-id="s1-hook" data-width="1920" data-height="1080">
+    <div data-hf-id="hf-ygft" class="ground"><div data-hf-id="hf-l8jp" class="key"></div><div data-hf-id="hf-el44" class="counter"></div></div>
+    <div data-hf-id="hf-suuy" id="h-stage">
+      <div data-hf-id="hf-tj1a" id="h-paper">
+        <img data-hf-id="hf-elyb" id="h-receipt" src="assets/ui/receipt.png" alt="Shree Ganesh Kirana bill" />
+        <div data-hf-id="hf-p8jn" id="h-mark"></div>
+      </div>
+      <div data-hf-id="hf-wsze" id="h-title">
+        <div data-hf-id="hf-ny84" id="h-line1" class="display">
+          <span data-hf-id="hf-en5h" class="word">2&nbsp;kg</span> <span data-hf-id="hf-3tys" class="word">of</span> <span data-hf-id="hf-edn3" class="word">tomatoes</span>
+        </div>
+        <div data-hf-id="hf-wm3z" id="h-line2" class="display">
+          <span data-hf-id="hf-0lfb" class="word">1.25&nbsp;kg</span> <span data-hf-id="hf-mr7l" class="word">will</span> <span data-hf-id="hf-ux76" class="word" id="h-rot">rot</span>
+        </div>
+        <div data-hf-id="hf-pyv0" id="h-sub" class="text">The Patil family's kirana bill, Pune</div>
+        <div data-hf-id="hf-t7xq" id="h-sub2" class="text">before 5 people can eat it</div>
+      </div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    // the bill lands (already visible on frame 0 for the thumbnail)
+    tl.fromTo("#h-paper", { y: -46, rotation: -7 }, { y: 0, rotation: -4, duration: 0.6, ease: "expo.out" }, 0);
+    tl.fromTo("#h-mark", { scaleX: 0 }, { scaleX: 1, duration: 0.42, ease: "power2.inOut" }, 0.4);
+    tl.fromTo("#h-sub", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.2, ease: "power2.out" }, 0.5);
+    // the robot wakes at 2.0; the line turns into the problem
+    tl.to("#h-line1 .word", { opacity: 0, filter: "blur(8px)", duration: 0.18, stagger: 0.04, ease: "power3.in" }, 2.55);
+    tl.to("#h-sub", { opacity: 0, filter: "blur(8px)", duration: 0.18, ease: "power3.in" }, 2.55);
+    tl.fromTo("#h-line2 .word", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.13, stagger: 0.09, ease: "power2.out" }, 2.8);
+    tl.fromTo("#h-sub2", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.2, ease: "power2.out" }, 3.0);
+    // whip out
+    tl.to("#h-stage", { x: -320, filter: "blur(14px)", opacity: 0, duration: 0.3, ease: "power3.in" }, 4.88);
+    window.__timelines["s1-hook"] = tl;
+  </script>
+</template>

@@ -1,0 +1,48 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; pointer-events: none; }
+    #bot-mover { position: absolute; left: 0; top: 0; width: 380px; height: 380px; transform-origin: 50% 50%; }
+  </style>
+  <div data-hf-id="hf-jgal" id="root" data-composition-id="robot" data-width="1920" data-height="1080" data-layout-allow-overflow data-layout-ignore>
+    <div data-hf-id="hf-cl88" id="bot-mover"><canvas data-hf-id="hf-t03z" id="bot-canvas" aria-label="AnnaSaathi robot"></canvas></div>
+  </div>
+  <script>
+    // robot-heads (MIT, fayazara/robot-heads), stepped on the film's clock (assets/robot-heads.js)
+    const BOX = 380;
+    // where the robot stands: [time the move ends, centre x, centre y, scale]
+    const STOPS = [
+      [0, 1470, 700, 1.0],
+      [5.6, 1560, 760, 0.78],
+      [11.4, 560, 590, 1.12],
+      [15.6, 390, 690, 0.82],
+      [52.8, 1590, 770, 0.72],
+      [62.8, 1600, 700, 0.8],
+      [67.0, 640, 560, 1.05],
+    ];
+    const vars = (window.__hyperframes && window.__hyperframes.getVariables && window.__hyperframes.getVariables()) || {};
+    const robot = RobotHeads.mount(document.getElementById("bot-canvas"), {
+      shape: "rectangle",
+      size: BOX,
+      color: vars["color-robot"] || "#e2762a",
+      dpr: 2,
+      seed: 0.37,
+      schedule: [
+        [0, "sleeping"], [2.0, "listening"], [5.3, "error"], [8.3, "thinking"], [11.1, "happy"],
+        [15.3, "listening"], [21.1, "searching"], [27.7, "thinking"], [33.3, "working"], [39.1, "speaking"],
+        [47.5, "happy"], [52.5, "working"], [57.6, "happy"], [62.5, "idle"], [66.5, "happy"],
+      ],
+      pokes: [2.0, 11.2, 50.6, 57.7, 66.9],
+    });
+    window.addEventListener("hf-seek", (e) => robot.renderAt(e.detail.time));
+    robot.renderAt(0);
+
+    const tl = gsap.timeline({ paused: true });
+    const at = (s) => ({ x: s[1] - BOX / 2, y: s[2] - BOX / 2, scale: s[3] });
+    tl.fromTo("#bot-mover", at(STOPS[0]), { ...at(STOPS[0]), duration: 0.01 }, 0);
+    for (let i = 1; i < STOPS.length; i++) {
+      const s = STOPS[i];
+      tl.fromTo("#bot-mover", at(STOPS[i - 1]), { ...at(s), duration: 0.6, ease: "power2.inOut", immediateRender: false }, s[0] - 0.6);
+    }
+    window.__timelines["robot"] = tl;
+  </script>
+</template>

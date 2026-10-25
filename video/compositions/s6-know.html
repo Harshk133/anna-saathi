@@ -1,0 +1,46 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+    #k-tomato { position: absolute; left: 860px; top: 200px; width: 827px; height: 171px; }
+    #k-palak { position: absolute; left: 860px; top: 400px; width: 827px; height: 171px; }
+    #k-eq { position: absolute; left: 860px; top: 640px; width: 860px; display: flex; align-items: flex-start; gap: 34px; }
+    #k-eq .part .display { font-size: 60px; }
+    #k-eq .part .text { font-size: 28px; margin-top: 8px; }
+    #k-eq .op { font-size: 60px; color: #b9aa98; }
+    #k-res .display { color: #f5b83d; }
+  </style>
+  <div data-hf-id="hf-8cbu" id="root" data-composition-id="s6-know" data-width="1920" data-height="1080">
+    <div data-hf-id="hf-ygft" class="ground"><div data-hf-id="hf-l8jp" class="key"></div><div data-hf-id="hf-el44" class="counter"></div></div>
+    <div data-hf-id="hf-4lwl" id="k-stage">
+      <div data-hf-id="hf-xa0m" id="k-bubble" class="bubble">
+        <div data-hf-id="hf-m6y2" class="display"><span data-hf-id="hf-o4hg" class="word">It</span> <span data-hf-id="hf-ppjr" class="word">knows</span> <span data-hf-id="hf-7rhn" class="word">what</span> <span data-hf-id="hf-f9er" class="word">spoils</span> <span data-hf-id="hf-mc2t" class="word">first</span></div>
+        <div data-hf-id="hf-1kww" class="text">Even loose veg and milk with no printed date.</div>
+      </div>
+      <img data-hf-id="hf-ffd3" id="k-tomato" class="ui" src="assets/ui/pantry-tomato.png" alt="Tomato: use soon, 3–5 days left, 1.25 kg may spoil" />
+      <img data-hf-id="hf-hvyp" id="k-palak" class="ui" src="assets/ui/pantry-palak.png" alt="Palak: use soon" />
+      <div data-hf-id="hf-wwlv" id="k-eq">
+        <div data-hf-id="hf-lu1o" id="k-p1" class="part"><div data-hf-id="hf-9t7u" class="display">4–6 days</div><div data-hf-id="hf-5pcs" class="text">tomatoes keep</div></div>
+        <div data-hf-id="hf-2nbu" id="k-o1" class="op display">×</div>
+        <div data-hf-id="hf-wpjb" id="k-p2" class="part"><div data-hf-id="hf-hnxk" class="display">0.8</div><div data-hf-id="hf-2l9u" class="text">31°C on the counter</div></div>
+        <div data-hf-id="hf-xr1h" id="k-o2" class="op display">=</div>
+        <div data-hf-id="hf-sml9" id="k-res" class="part"><div data-hf-id="hf-8o2i" class="display">3–5 days</div><div data-hf-id="hf-oaan" class="text">before they turn</div></div>
+      </div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#k-tomato", { x: 300, filter: "blur(14px)", opacity: 0 }, { x: 0, filter: "blur(0px)", opacity: 1, duration: 0.5, ease: "expo.out" }, 0);
+    tl.fromTo("#k-palak", { x: 300, filter: "blur(14px)", opacity: 0 }, { x: 0, filter: "blur(0px)", opacity: 1, duration: 0.5, ease: "expo.out" }, 0.12);
+    tl.fromTo("#k-bubble", { scale: 0.8, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.35, ease: "back.out(1.4)" }, 0.15);
+    tl.fromTo("#k-bubble .word", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.13, stagger: 0.07, ease: "power2.out" }, 0.26);
+    tl.fromTo("#k-bubble .text", { opacity: 0 }, { opacity: 1, duration: 0.25 }, 0.9);
+    // the estimate, built term by term
+    tl.fromTo("#k-p1", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.18, ease: "power2.out" }, 1.6);
+    tl.fromTo("#k-o1", { opacity: 0 }, { opacity: 1, duration: 0.15 }, 2.1);
+    tl.fromTo("#k-p2", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.18, ease: "power2.out" }, 2.25);
+    tl.fromTo("#k-o2", { opacity: 0 }, { opacity: 1, duration: 0.15 }, 2.95);
+    tl.fromTo("#k-res", { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(1.6)" }, 3.3);
+    tl.to("#k-stage", { x: -320, filter: "blur(14px)", opacity: 0, duration: 0.3, ease: "power3.in" }, 5.3);
+    window.__timelines["s6-know"] = tl;
+  </script>
+</template>

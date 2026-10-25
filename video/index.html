@@ -1,0 +1,114 @@
+<!doctype html>
+<html
+  lang="en"
+  data-composition-variables='[
+    {"id":"color-ground","type":"color","label":"Kitchen ground","default":"#1a1411"},
+    {"id":"color-ink","type":"color","label":"Text on dark","default":"#fff4e2"},
+    {"id":"color-haldi","type":"color","label":"Haldi accent","default":"#f5b83d"},
+    {"id":"color-teal","type":"color","label":"AnnaSaathi teal","default":"#2aa9a0"},
+    {"id":"color-chilli","type":"color","label":"Warning","default":"#ef5a50"},
+    {"id":"color-robot","type":"color","label":"Robot shell","default":"#e2762a"}
+  ]'
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <script src="assets/robot-heads.js"></script>
+    <style>
+      @font-face { font-family: "Fraunces"; src: url("assets/fonts/fraunces-latin.woff2") format("woff2"); font-weight: 300 900; font-style: normal; }
+      @font-face { font-family: "Fraunces"; src: url("assets/fonts/fraunces-italic-latin.woff2") format("woff2"); font-weight: 300 900; font-style: italic; }
+      @font-face { font-family: "Bricolage Grotesque"; src: url("assets/fonts/bricolage-latin.woff2") format("woff2"); font-weight: 400 800; }
+      @font-face { font-family: "Mukta"; src: url("assets/fonts/mukta-600-deva.woff2") format("woff2"); font-weight: 600; }
+      @font-face { font-family: "Mukta"; src: url("assets/fonts/mukta-700-deva.woff2") format("woff2"); font-weight: 700; }
+
+      :root {
+        --color-ground: #1a1411;
+        --color-ink: #fff4e2;
+        --color-haldi: #f5b83d;
+        --color-teal: #2aa9a0;
+        --color-chilli: #ef5a50;
+        --color-robot: #e2762a;
+        --muted: #b9aa98;
+        --font-display: "Fraunces", Georgia, serif;
+        --font-text: "Bricolage Grotesque", "Mukta", sans-serif;
+        --font-deva: "Mukta", "Bricolage Grotesque", sans-serif;
+      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1920px; height: 1080px; overflow: hidden; background: var(--color-ground); }
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden; background: var(--color-ground); }
+
+      /* shared look, used by every scene */
+      .ground { position: absolute; inset: 0; background: var(--color-ground); overflow: hidden; }
+      .ground .key {
+        position: absolute; left: -380px; top: -520px; width: 1500px; height: 1500px; border-radius: 50%;
+        background: radial-gradient(closest-side, rgba(245, 184, 61, 0.22), rgba(245, 184, 61, 0));
+      }
+      .ground .counter { position: absolute; left: 0; right: 0; top: 820px; bottom: 0; background: #120d0b; border-top: 1px solid rgba(255, 230, 200, 0.1); }
+      .flood { position: absolute; inset: 0; }
+      .display {
+        font-family: var(--font-display); font-weight: 600; letter-spacing: -0.01em; line-height: 1.02;
+        font-variation-settings: "SOFT" 100, "WONK" 0, "opsz" 144; color: var(--color-ink);
+      }
+      .text { font-family: var(--font-text); font-weight: 500; font-size: 32px; line-height: 1.3; color: var(--muted); }
+      .deva { font-family: var(--font-deva); font-weight: 600; }
+      .word { display: inline-block; }
+      .ui { display: block; border-radius: 34px; box-shadow: 0 40px 90px rgba(0, 0, 0, 0.55); }
+      .phone { display: block; border-radius: 44px; box-shadow: 0 40px 90px rgba(0, 0, 0, 0.6), 0 0 0 8px #0d0907, 0 0 0 9px rgba(255, 230, 200, 0.14); }
+      .bubble {
+        position: absolute; left: 192px; top: 150px; width: 600px; padding: 34px 38px 32px;
+        background: #fff4e2; border-radius: 34px; transform-origin: 30% 100%;
+      }
+      .bubble::after {
+        content: ""; position: absolute; left: 150px; bottom: -26px; width: 56px; height: 56px;
+        background: #fff4e2; border-radius: 0 0 14px 0; transform: rotate(45deg) skew(10deg, 10deg);
+      }
+      .bubble .display { color: #1a1411; font-size: 64px; }
+      .bubble .text { color: #5b4a3d; margin-top: 12px; }
+
+    </style>
+  </head>
+  <body>
+    <div data-hf-id="hf-skl8" id="root" data-composition-id="main" data-start="0" data-duration="73" data-width="1920" data-height="1080">
+      <!-- scenes: one per beat, end to end -->
+      <div data-hf-id="hf-fx9q" id="s1-hook" data-composition-id="s1-hook" data-composition-src="compositions/s1-hook.html" data-start="0" data-duration="5.2" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index: 1"></div>
+      <div data-hf-id="hf-nlbi" id="s2-old" data-composition-id="s2-old" data-composition-src="compositions/s2-old.html" data-start="5.2" data-duration="5.8" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index: 1"></div>
+      <div data-hf-id="hf-gzcf" id="s3-reveal" data-composition-id="s3-reveal" data-composition-src="compositions/s3-reveal.html" data-start="11" data-duration="4.2" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index: 1"></div>
+      <div data-hf-id="hf-d9xf" id="s4-tell" data-composition-id="s4-tell" data-composition-src="compositions/s4-tell.html" data-start="15.2" data-duration="5.8" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index: 1"></div>
+      <div data-hf-id="hf-ojxi" id="s5-scan" data-composition-id="s5-scan" data-composition-src="compositions/s5-scan.html" data-start="21" data-duration="6.6" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index: 1"></div>
+      <div data-hf-id="hf-ls74" id="s6-know" data-composition-id="s6-know" data-composition-src="compositions/s6-know.html" data-start="27.6" data-duration="5.6" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index: 1"></div>
+      <div data-hf-id="hf-0jfn" id="s7-cook" data-composition-id="s7-cook" data-composition-src="compositions/s7-cook.html" data-start="33.2" data-duration="5.8" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index: 1"></div>
+      <div data-hf-id="hf-mqxx" id="s8-buy" data-composition-id="s8-buy" data-composition-src="compositions/s8-buy.html" data-start="39" data-duration="8.4" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index: 1"></div>
+      <div data-hf-id="hf-pg9w" id="s9-check" data-composition-id="s9-check" data-composition-src="compositions/s9-check.html" data-start="47.4" data-duration="5" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index: 1"></div>
+      <div data-hf-id="hf-j8yy" id="s10-impact" data-composition-id="s10-impact" data-composition-src="compositions/s10-impact.html" data-start="52.4" data-duration="10" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index: 1"></div>
+      <div data-hf-id="hf-8y8p" id="s11-claim" data-composition-id="s11-claim" data-composition-src="compositions/s11-claim.html" data-start="62.4" data-duration="4" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index: 1"></div>
+      <div data-hf-id="hf-up3f" id="s12-end" data-composition-id="s12-end" data-composition-src="compositions/s12-end.html" data-start="66.4" data-duration="6.6" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index: 1"></div>
+
+      <!-- AnnaSaathi's kitchen agent: one robot carried through every scene -->
+      <div data-hf-id="hf-66ui" id="robot" data-composition-id="robot" data-composition-src="compositions/robot.html" data-start="0" data-duration="73" data-track-index="2" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index: 50"></div>
+
+      <!-- sound: bundled offline effects, each on a visible action -->
+      <audio data-hf-id="hf-w9f3" id="sfx-wake" class="clip" data-start="2.02" data-duration="0.72" data-track-index="5" data-volume="0.55" src="assets/sfx/pop.mp3"></audio>
+      <audio data-hf-id="hf-it23" id="sfx-cut1" class="clip" data-start="5.12" data-duration="0.57" data-track-index="5" data-volume="0.45" src="assets/sfx/whoosh.mp3"></audio>
+      <audio data-hf-id="hf-c6bt" id="sfx-err" class="clip" data-start="5.45" data-duration="1.6" data-track-index="6" data-volume="0.25" src="assets/sfx/error.mp3"></audio>
+      <audio data-hf-id="hf-cpex" id="sfx-cut2" class="clip" data-start="8.12" data-duration="0.57" data-track-index="5" data-volume="0.4" src="assets/sfx/whoosh-short.mp3"></audio>
+      <audio data-hf-id="hf-t5xu" id="sfx-reveal" class="clip" data-start="10.75" data-duration="1.8" data-track-index="6" data-volume="0.5" src="assets/sfx/sparkle.mp3"></audio>
+      <audio data-hf-id="hf-h2tp" id="sfx-cut3" class="clip" data-start="15.12" data-duration="0.57" data-track-index="5" data-volume="0.4" src="assets/sfx/whoosh.mp3"></audio>
+      <audio data-hf-id="hf-chm3" id="sfx-cut4" class="clip" data-start="20.92" data-duration="0.57" data-track-index="5" data-volume="0.4" src="assets/sfx/whoosh-short.mp3"></audio>
+      <audio data-hf-id="hf-mn5j" id="sfx-chip" class="clip" data-start="25.45" data-duration="0.72" data-track-index="6" data-volume="0.45" src="assets/sfx/pop.mp3"></audio>
+      <audio data-hf-id="hf-9rxx" id="sfx-days" class="clip" data-start="30.95" data-duration="0.72" data-track-index="6" data-volume="0.45" src="assets/sfx/pop.mp3"></audio>
+      <audio data-hf-id="hf-a6sj" id="sfx-cut5" class="clip" data-start="33.12" data-duration="0.57" data-track-index="5" data-volume="0.4" src="assets/sfx/whoosh.mp3"></audio>
+      <audio data-hf-id="hf-rhvv" id="sfx-kg" class="clip" data-start="43.45" data-duration="0.72" data-track-index="6" data-volume="0.5" src="assets/sfx/pop.mp3"></audio>
+      <audio data-hf-id="hf-7dgu" id="sfx-cut6" class="clip" data-start="47.32" data-duration="0.57" data-track-index="5" data-volume="0.4" src="assets/sfx/whoosh-short.mp3"></audio>
+      <audio data-hf-id="hf-vuru" id="sfx-riser" class="clip" data-start="47.6" data-duration="10.03" data-track-index="7" data-volume="0.4" data-fade-in="1.5" src="assets/sfx/riser.mp3"></audio>
+      <audio data-hf-id="hf-kj8c" id="sfx-impact" class="clip" data-start="57.35" data-duration="2.59" data-track-index="5" data-volume="0.6" src="assets/sfx/impact-bass-2.mp3"></audio>
+      <audio data-hf-id="hf-cvsm" id="sfx-claim" class="clip" data-start="62.35" data-duration="0.57" data-track-index="6" data-volume="0.4" src="assets/sfx/whoosh.mp3"></audio>
+      <audio data-hf-id="hf-goxp" id="sfx-mark" class="clip" data-start="67.7" data-duration="2.5" data-track-index="6" data-volume="0.45" src="assets/sfx/chime.mp3"></audio>
+    </div>
+
+    <script>
+      window.__timelines = window.__timelines || {};
+      window.__timelines["main"] = gsap.timeline({ paused: true });
+    </script>
+  </body>
+</html>
